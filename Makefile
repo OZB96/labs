@@ -12,19 +12,29 @@ cluster:
 	    -v /var/run/docker.sock:/var/run/docker.sock \
 	    --agents 3
 
-jenkins:
+jenkins: jenkins-clone jenkins-build jenkins-tidy
+
+jenkins-clone:
 	git clone https://github.com/KnowledgeHut-AWS/k8s-jenkins
+
+jenkins-build:
 	cd k8s-jenkins && ./jenkins.sh
+
+jenkins-tidy:
 	rm -rf k8s-jenkins
 
 jenkins-down:
-	git clone https://github.com/KnowledgeHut-AWS/k8s-jenkins
 	cd k8s-jenkins && kubectl delete jenkins.helm.yaml
-	rm -rf k8s-jenkins
 
-elf:
+elf: elf-clone elf-build elf-tidy
+
+elf-clone:
 	git clone https://github.com/KnowledgeHut-AWS/elf
+
+elf-build:
 	cd elf && ./elf.sh
+
+elf-tidy:
 	rm -rf elf
 
 elf-down:
@@ -33,9 +43,15 @@ elf-down:
 	helm uninstall kibana --namespace=elf
 	kubectl delete random-logger -n elf
 
-pro-graf:
+pro-graf: pro-graf-clone pro-graf-build pro-graf-tidy
+
+pro-graf-clone:
 	git clone https://github.com/KnowledgeHut-AWS/pro-graf
+
+pro-graf-build:
 	cd pro-graf && ./pro-graf.sh
+
+pro-graf-tidy:
 	rm -rf pro-graf
 
 pro-graf-down:
