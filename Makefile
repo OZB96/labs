@@ -1,8 +1,8 @@
-all: k3d elf pro-graf jenkins
+deploy: elf pro-graf jenkins
 
-all2: elf pro-graf jenkins
+up: cluster deploy
 
-k3d:
+cluster:
 	k3d cluster create labs \
 	    -p 80:80@loadbalancer \
 	    -p 443:443@loadbalancer \
