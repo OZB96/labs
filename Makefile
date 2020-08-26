@@ -18,7 +18,9 @@ jenkins:
 	rm -rf k8s-jenkins
 
 jenkins-down:
-	helm -n jenkins uninstall jenkins
+	git clone https://github.com/KnowledgeHut-AWS/k8s-jenkins
+	cd k8s-jenkins && kubectl delete jenkins.helm.yaml
+	rm -rf k8s-jenkins
 
 elf:
 	git clone https://github.com/KnowledgeHut-AWS/elf
@@ -28,7 +30,7 @@ elf:
 elf-down:
 	helm uninstall elasticsearch --namespace=elf
 	helm uninstall fluent-bit --namespace=elf
-	helm uninstall kibana elastic/kibana --namespace=elf
+	helm uninstall kibana --namespace=elf
 	kubectl delete random-logger -n elf
 
 pro-graf:
