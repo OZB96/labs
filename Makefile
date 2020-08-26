@@ -1,6 +1,6 @@
 deploy: elf pro-graf jenkins
 
-up: cluster deploy
+up: cluster up
 
 cluster:
 	k3d cluster create labs \
@@ -12,13 +12,16 @@ cluster:
 	    -v /var/run/docker.sock:/var/run/docker.sock \
 	    --agents 3
 
-jenkins: jenkins-clone jenkins-build jenkins-tidy
+jenkins: jenkins-clone jenkins-up jenkins-test jenkins-tidy
 
 jenkins-clone:
 	git clone https://github.com/KnowledgeHut-AWS/k8s-jenkins
 
-jenkins-build:
+jenkins-up:
 	cd k8s-jenkins && ./jenkins.sh
+
+jenkins-test:
+	curl -L localhost/jenkins
 
 jenkins-tidy:
 	rm -rf k8s-jenkins
@@ -26,13 +29,16 @@ jenkins-tidy:
 jenkins-down:
 	cd k8s-jenkins && kubectl delete jenkins.helm.yaml
 
-elf: elf-clone elf-build elf-tidy
+elf: elf-clone elf-up elf-test elf-tidy
 
 elf-clone:
 	git clone https://github.com/KnowledgeHut-AWS/elf
 
-elf-build:
+elf-up:
 	cd elf && ./elf.sh
+
+elf-test:
+	curl localhost/elf
 
 elf-tidy:
 	rm -rf elf
@@ -43,16 +49,20 @@ elf-down:
 	helm uninstall kibana --namespace=elf
 	kubectl delete random-logger -n elf
 
-pro-graf: pro-graf-clone pro-graf-build pro-graf-tidy
+pro-graf: pro-graf-clone pro-graf-up pro-graf-test pro-graf-tidy
 
 pro-graf-clone:
 	git clone https://github.com/KnowledgeHut-AWS/pro-graf
 
-pro-graf-build:
+pro-graf-up:
 	cd pro-graf && ./pro-graf.sh
+
+pro-graf-test:
+	curl localhost/grafana
 
 pro-graf-tidy:
 	rm -rf pro-graf
 
 pro-graf-down:
 	helm uninstall prometheus-operator -n monitor
+
