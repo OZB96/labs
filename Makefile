@@ -1,6 +1,6 @@
 deploy: elf pro-graf jenkins
 
-up: cluster up
+up: cluster deploy
 
 cluster:
 	k3d cluster create labs \
