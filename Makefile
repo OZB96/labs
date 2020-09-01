@@ -15,7 +15,7 @@ cluster:
 jenkins: jenkins-clone jenkins-up jenkins-tidy
 
 jenkins-clone:
-	git clone https://github.com/OZB96/k8s-jenkins.git
+	git clone https://github.com/KnowledgeHut-AWS/k8s-jenkins
 
 jenkins-up:
 	cd k8s-jenkins && ./jenkins.sh
